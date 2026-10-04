@@ -1,9 +1,19 @@
 import React from 'react';
 import { Calendar, Briefcase, ChevronRight } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
+import { TiltCard } from './TiltCard';
 
 export const Experience = () => {
   const { experience } = portfolioData;
+
+  const getVersionTag = (id) => {
+    switch (id) {
+      case 'exp-1': return { ver: 'v3.0.0', label: 'Current Release', active: true };
+      case 'exp-2': return { ver: 'v2.0.0', label: 'Enterprise Architecture', active: false };
+      case 'exp-3': return { ver: 'v1.0.0', label: 'API Foundation', active: false };
+      default: return { ver: 'v1.0.0', label: '', active: false };
+    }
+  };
 
   return (
     <section id="experience" style={{ padding: '5rem 0', position: 'relative' }}>
@@ -15,75 +25,89 @@ export const Experience = () => {
             <span>Experience</span>
           </h2>
           <p className="section-subtitle">
-            A quick look at my professional journey so far.
+            A quick look at my professional journey and software engineering evolution.
           </p>
         </div>
 
         {/* Experience Timeline Grid */}
-        <div className="experience-timeline-container">
+        <div className="experience-timeline-container" data-cursor-label="TIMELINE">
           
           <div className="experience-grid">
-            {experience.map((item, index) => (
-              <React.Fragment key={item.id}>
-                
-                {/* Timeline Card */}
-                <div className="experience-card glass-card">
+            {experience.map((item, index) => {
+              const version = getVersionTag(item.id);
+              return (
+                <React.Fragment key={item.id}>
                   
-                  {/* Top Bar: Company Logo & Info */}
-                  <div className="exp-card-header">
-                    <div
-                      className="exp-company-logo"
-                      style={{
-                        background: item.id === 'exp-1' ? '#ffffff' : item.id === 'exp-2' ? '#ffffff' : '#4f46e5',
-                        color: item.id === 'exp-3' ? '#ffffff' : '#0f172a'
-                      }}
-                    >
-                      {item.id === 'exp-1' && (
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: '0.75rem', color: '#000', lineHeight: 1 }}>
-                          <span style={{ fontSize: '0.85rem', color: '#7c3aed' }}>⚡</span>
-                        </div>
-                      )}
-                      {item.id === 'exp-2' && (
-                        <div style={{ fontWeight: 800, fontSize: '0.85rem', color: '#0284c7' }}>
-                          Citta
-                        </div>
-                      )}
-                      {item.id === 'exp-3' && (
-                        <div style={{ fontWeight: 800, fontSize: '0.9rem', color: '#ffffff' }}>
-                          TN
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="exp-company-details">
-                      <h3 className="exp-company-name">{item.company}</h3>
-                      <p className="exp-role-title">{item.role}</p>
-                    </div>
-                  </div>
-
-                  {/* Period Badge */}
-                  <div className="exp-period-wrap">
-                    <Calendar size={13} className="text-purple-400" />
-                    <span className="exp-period-text">{item.period}</span>
-                    {item.isCurrent && <span className="exp-current-tag">Present</span>}
-                  </div>
-
-                  {/* Description */}
-                  <p className="exp-description">
-                    {item.description}
-                  </p>
-
-                  {/* Highlights Bullet Points */}
-                  <div className="exp-highlights-list">
-                    {item.highlights && item.highlights.slice(0, 2).map((h, i) => (
-                      <div key={i} className="exp-highlight-item">
-                        <ChevronRight size={13} style={{ color: '#a855f7', flexShrink: 0, marginTop: '2px' }} />
-                        <span>{h}</span>
+                  {/* Timeline Card with 3D Tilt */}
+                  <TiltCard maxTilt={5} style={{ height: '100%' }}>
+                    <div className="experience-card glass-card">
+                      
+                      {/* Version Evolution Pill */}
+                      <div className="exp-version-bar">
+                        <span className={`exp-ver-tag ${version.active ? 'ver-active' : ''}`}>
+                          <code>{version.ver}</code> <span>· {version.label}</span>
+                        </span>
                       </div>
-                    ))}
-                  </div>
 
-                </div>
+                      {/* Top Bar: Company Logo & Info */}
+                      <div className="exp-card-header">
+                      <div
+                        className="exp-company-logo"
+                        style={{
+                          background: item.id === 'exp-1' ? '#ffffff' : item.id === 'exp-2' ? '#ffffff' : '#4f46e5',
+                          color: item.id === 'exp-3' ? '#ffffff' : '#0f172a'
+                        }}
+                      >
+                        {item.id === 'exp-1' && (
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: '0.75rem', color: '#000', lineHeight: 1 }}>
+                            <span style={{ fontSize: '0.85rem', color: '#7c3aed' }}>⚡</span>
+                          </div>
+                        )}
+                        {item.id === 'exp-2' && (
+                          <div style={{ fontWeight: 800, fontSize: '0.85rem', color: '#0284c7' }}>
+                            Citta
+                          </div>
+                        )}
+                        {item.id === 'exp-3' && (
+                          <div style={{ fontWeight: 800, fontSize: '0.9rem', color: '#ffffff' }}>
+                            TN
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="exp-company-details">
+                        <h3 className="exp-company-name">{item.company}</h3>
+                        <p className="exp-role-title">{item.role}</p>
+                      </div>
+                    </div>
+
+                    {/* Period Badge */}
+                    <div className="exp-period-wrap">
+                      <Calendar size={13} className="text-purple-400" />
+                      <span className="exp-period-text">{item.period}</span>
+                      {item.duration && (
+                        <span className="exp-duration-tag">· {item.duration}</span>
+                      )}
+                      {item.isCurrent && <span className="exp-current-tag">Present</span>}
+                    </div>
+
+                    {/* Description */}
+                    <p className="exp-description">
+                      {item.description}
+                    </p>
+
+                    {/* Highlights Bullet Points */}
+                    <div className="exp-highlights-list">
+                      {item.highlights && item.highlights.slice(0, 2).map((h, i) => (
+                        <div key={i} className="exp-highlight-item">
+                          <ChevronRight size={13} style={{ color: '#a855f7', flexShrink: 0, marginTop: '2px' }} />
+                          <span>{h}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                  </div>
+                </TiltCard>
 
                 {/* Connecting Node & Line (between cards on desktop) */}
                 {index < experience.length - 1 && (
@@ -95,7 +119,8 @@ export const Experience = () => {
                 )}
 
               </React.Fragment>
-            ))}
+                );
+              })}
           </div>
 
         </div>
@@ -140,6 +165,38 @@ export const Experience = () => {
           margin-bottom: 0.85rem;
         }
 
+        .exp-version-bar {
+          margin-bottom: 0.75rem;
+        }
+
+        .exp-ver-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+          font-size: 0.685rem;
+          font-family: var(--font-mono);
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          color: #94a3b8;
+          padding: 0.15rem 0.55rem;
+          border-radius: 6px;
+        }
+
+        .exp-ver-tag code {
+          font-weight: 700;
+          color: var(--accent-purple-light);
+        }
+
+        .ver-active {
+          background: rgba(16, 185, 129, 0.12);
+          border-color: rgba(16, 185, 129, 0.35);
+          color: #34d399;
+        }
+
+        .ver-active code {
+          color: #34d399;
+        }
+
         .exp-company-logo {
           width: 44px;
           height: 44px;
@@ -176,6 +233,7 @@ export const Experience = () => {
           gap: 0.45rem;
           margin-bottom: 0.85rem;
           color: var(--text-secondary);
+          flex-wrap: wrap;
         }
 
         .exp-period-text {
@@ -183,14 +241,39 @@ export const Experience = () => {
           font-weight: 600;
         }
 
+        .exp-duration-tag {
+          font-size: 0.74rem;
+          color: var(--text-muted);
+          font-weight: 500;
+        }
+
         .exp-current-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
           font-size: 0.7rem;
           background: rgba(168, 85, 247, 0.15);
           color: var(--accent-purple);
           border: 1px solid rgba(168, 85, 247, 0.3);
-          padding: 0.1rem 0.45rem;
-          border-radius: 4px;
-          font-weight: 600;
+          padding: 0.15rem 0.55rem;
+          border-radius: 9999px;
+          font-weight: 700;
+          box-shadow: 0 0 12px rgba(168, 85, 247, 0.2);
+        }
+
+        .exp-current-tag::before {
+          content: '';
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #10b981;
+          box-shadow: 0 0 8px #10b981;
+          animation: pulseGreen 1.6s infinite;
+        }
+
+        @keyframes pulseGreen {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.35; transform: scale(0.8); }
         }
 
         .exp-description {
@@ -216,27 +299,49 @@ export const Experience = () => {
           line-height: 1.4;
         }
 
-        /* Timeline Connectors */
+        /* Animated Glowing Timeline Connectors */
         .timeline-connector {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 32px;
+          width: 36px;
         }
 
         .connector-line {
           flex: 1;
           height: 2px;
-          background: var(--border-subtle);
+          background: linear-gradient(90deg, rgba(168, 85, 247, 0.2), #a855f7, #38bdf8, rgba(168, 85, 247, 0.2));
+          background-size: 200% 100%;
+          animation: beamGlow 2.8s linear infinite;
+        }
+
+        @keyframes beamGlow {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
         }
 
         .connector-node {
-          width: 9px;
-          height: 9px;
+          width: 11px;
+          height: 11px;
           border-radius: 50%;
           background: var(--accent-purple);
-          box-shadow: 0 0 10px var(--accent-purple-glow);
+          box-shadow: 0 0 12px var(--accent-purple-glow), 0 0 24px rgba(168, 85, 247, 0.4);
           flex-shrink: 0;
+          position: relative;
+        }
+
+        .connector-node::after {
+          content: '';
+          position: absolute;
+          inset: -4px;
+          border-radius: 50%;
+          border: 1.5px solid rgba(168, 85, 247, 0.45);
+          animation: ringPulse 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+        }
+
+        @keyframes ringPulse {
+          0% { transform: scale(0.8); opacity: 1; }
+          100% { transform: scale(1.9); opacity: 0; }
         }
 
         @media (max-width: 990px) {

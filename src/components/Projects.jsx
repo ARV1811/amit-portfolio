@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight, ArrowRight, ExternalLink } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
+import { TiltCard } from './TiltCard';
 
 export const Projects = ({ onSelectProject }) => {
   const { projects } = portfolioData;
@@ -74,52 +75,54 @@ export const Projects = ({ onSelectProject }) => {
             className={`projects-track ${viewAll ? 'grid-view' : 'slider-view'}`}
           >
             {projects.map((project) => (
-              <div key={project.id} className="project-card glass-card">
-                
-                {/* Screenshot Area */}
-                <div className="project-card-image-wrap">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="project-card-img"
-                  />
-                  {/* Number Badge */}
-                  <div className="project-number-badge">
-                    {project.number}
-                  </div>
-                </div>
-
-                {/* Content Area */}
-                <div className="project-card-body">
-                  <h3 className="project-card-title">{project.title}</h3>
-                  <p className="project-card-subtitle">{project.subtitle}</p>
+              <TiltCard key={project.id} maxTilt={6} className="project-card-tilt-wrapper">
+                <div className="project-card glass-card">
                   
-                  <p className="project-card-desc">
-                    {project.description}
-                  </p>
-
-                  {/* Tech Tags */}
-                  <div className="project-card-tags">
-                    {project.tags.map((tag) => (
-                      <span key={tag} className="project-tag">
-                        {tag}
-                      </span>
-                    ))}
+                  {/* Screenshot Area */}
+                  <div className="project-card-image-wrap">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="project-card-img"
+                    />
+                    {/* Number Badge */}
+                    <div className="project-number-badge">
+                      {project.number}
+                    </div>
                   </div>
 
-                  {/* Action Button */}
-                  <div style={{ marginTop: 'auto', paddingTop: '1.25rem' }}>
-                    <button
-                      onClick={() => onSelectProject(project)}
-                      className="btn-secondary project-view-btn"
-                    >
-                      <span>View Case Study</span>
-                      <ExternalLink size={14} />
-                    </button>
+                  {/* Content Area */}
+                  <div className="project-card-body">
+                    <h3 className="project-card-title">{project.title}</h3>
+                    <p className="project-card-subtitle">{project.subtitle}</p>
+                    
+                    <p className="project-card-desc">
+                      {project.description}
+                    </p>
+
+                    {/* Tech Tags */}
+                    <div className="project-card-tags">
+                      {project.tags.map((tag) => (
+                        <span key={tag} className="project-tag">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Action Button */}
+                    <div style={{ marginTop: 'auto', paddingTop: '1.25rem' }}>
+                      <button
+                        onClick={() => onSelectProject(project)}
+                        className="btn-secondary project-view-btn"
+                      >
+                        <span>View Case Study</span>
+                        <ExternalLink size={14} />
+                      </button>
+                    </div>
                   </div>
+
                 </div>
-
-              </div>
+              </TiltCard>
             ))}
           </div>
 
@@ -185,10 +188,22 @@ export const Projects = ({ onSelectProject }) => {
         }
 
         /* Card Styling */
-        .project-card {
+        .project-card-tilt-wrapper {
           flex: 0 0 285px;
           max-width: 320px;
           scroll-snap-align: start;
+          border-radius: 18px;
+          height: 100%;
+        }
+
+        .grid-view .project-card-tilt-wrapper {
+          flex: 1 1 280px;
+          max-width: 100%;
+        }
+
+        .project-card {
+          width: 100%;
+          height: 100%;
           display: flex;
           flex-direction: column;
           border-radius: 18px;
@@ -196,18 +211,12 @@ export const Projects = ({ onSelectProject }) => {
           background: var(--bg-card);
           border: 1px solid var(--border-subtle);
           box-shadow: var(--glass-shadow);
-          transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .grid-view .project-card {
-          flex: 1 1 280px;
-          max-width: 100%;
+          transition: border-color 0.35s ease, box-shadow 0.35s ease;
         }
 
         .project-card:hover {
-          transform: translateY(-6px);
-          border-color: var(--border-focus);
-          box-shadow: var(--glow-shadow);
+          border-color: rgba(168, 85, 247, 0.55);
+          box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.5), 0 0 25px rgba(168, 85, 247, 0.2);
         }
 
         /* Image Wrap */

@@ -1,13 +1,44 @@
-import React from 'react';
-import { Mail, Phone, Calendar, FolderGit2, Users2, Rocket, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, Phone, Calendar, FolderGit2, Users2, Rocket, ArrowRight, Sparkles, Activity } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
 import { portfolioData } from '../data/portfolioData';
+import { TiltCard } from './TiltCard';
+import { AnimatedCounter } from './AnimatedCounter';
+import { RoleTyping } from './RoleTyping';
+import { DotNetTerminal } from './DotNetTerminal';
+import { DeveloperHUD } from './DeveloperHUD';
 
 export const Hero = ({ onOpenContact, onShowToast }) => {
   const { personal } = portfolioData;
+  const [isHudHovered, setIsHudHovered] = useState(false);
 
-  const copyEmail = () => {
+  const handleContactClick = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    confetti({
+      particleCount: 50,
+      spread: 70,
+      origin: {
+        x: (rect.left + rect.width / 2) / window.innerWidth,
+        y: (rect.top + rect.height / 2) / window.innerHeight
+      },
+      colors: ['#a855f7', '#6366f1', '#38bdf8', '#ec4899', '#ffffff']
+    });
+    onOpenContact?.();
+  };
+
+  const copyEmail = (e) => {
     navigator.clipboard.writeText(personal.email);
+    const rect = e.currentTarget.getBoundingClientRect();
+    confetti({
+      particleCount: 35,
+      spread: 55,
+      origin: {
+        x: (rect.left + rect.width / 2) / window.innerWidth,
+        y: (rect.top + rect.height / 2) / window.innerHeight
+      },
+      colors: ['#a855f7', '#10b981', '#ffffff']
+    });
     onShowToast?.('Email copied to clipboard!');
   };
 
@@ -51,26 +82,57 @@ export const Hero = ({ onOpenContact, onShowToast }) => {
         }}
       />
 
+      {/* Subtle Floating Code Syntax Tokens */}
+      <div className="floating-code-token token-1" aria-hidden="true">C# 12</div>
+      <div className="floating-code-token token-2" aria-hidden="true">.NET 8</div>
+      <div className="floating-code-token token-3" aria-hidden="true">&lt;async / await&gt;</div>
+      <div className="floating-code-token token-4" aria-hidden="true">SELECT * FROM Data</div>
+      <div className="floating-code-token token-5" aria-hidden="true">.Where(x =&gt; x.Active)</div>
+
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         <div className="hero-grid">
           
-          {/* 1. Left Avatar Card */}
-          <div className="hero-avatar-wrapper">
-            <div className="hero-avatar-card">
-              <img
-                src={personal.avatar}
-                alt={personal.name}
-                className="hero-avatar-img"
-              />
-              <div className="hero-avatar-glow" />
-            </div>
+          {/* 1. Left Avatar Card with 3D Tilt, Developer HUD & Floating Tech Badges */}
+          <div
+            className="hero-avatar-wrapper"
+            data-cursor-label="DEVELOPER HUD"
+            onMouseEnter={() => setIsHudHovered(true)}
+            onMouseLeave={() => setIsHudHovered(false)}
+          >
+            <TiltCard maxTilt={9} className="hero-avatar-tilt-wrapper">
+              <div className="hero-avatar-card">
+                <img
+                  src={personal.avatar}
+                  alt={personal.name}
+                  className="hero-avatar-img"
+                />
+                <div className="hero-avatar-glow" />
+
+                {/* Developer HUD System Diagnostics Overlay */}
+                <DeveloperHUD isVisible={isHudHovered} />
+
+                {/* HUD Trigger Indicator Pill */}
+                <div className="hud-indicator-pill">
+                  <Activity size={10} className="text-emerald-400" />
+                  <span>Developer HUD</span>
+                </div>
+              </div>
+            </TiltCard>
           </div>
 
-          {/* 2. Middle Content Area */}
+          {/* 2. Middle Content Area with Dynamic Typing */}
           <div className="hero-content">
-            <div className="hero-greeting">
-              <span>{personal.greeting}</span>
-              <span className="wave-hand">👋</span>
+            <div className="hero-greeting-row">
+              <div className="hero-greeting">
+                <span>{personal.greeting}</span>
+                <span className="wave-hand">👋</span>
+              </div>
+              {personal.availableForHire && (
+                <div className="hero-available-badge">
+                  <span className="pulse-radar" />
+                  <span>Available for Hire</span>
+                </div>
+              )}
             </div>
 
             <h1 className="hero-name">
@@ -78,7 +140,7 @@ export const Hero = ({ onOpenContact, onShowToast }) => {
             </h1>
 
             <h2 className="hero-role">
-              <span className="role-highlight">.NET & C#</span> Developer
+              <RoleTyping />
             </h2>
 
             <p className="hero-tagline">
@@ -87,7 +149,7 @@ export const Hero = ({ onOpenContact, onShowToast }) => {
 
             {/* Quick Action Buttons */}
             <div className="hero-actions">
-              <button onClick={onOpenContact} className="btn-contact-live">
+              <button onClick={handleContactClick} className="btn-contact-live">
                 <span className="pulse-dot" />
                 <span>Contact me</span>
               </button>
@@ -136,24 +198,43 @@ export const Hero = ({ onOpenContact, onShowToast }) => {
             </div>
           </div>
 
-          {/* 3. Right Stats Card */}
+          {/* 3. Right Stats Card with 3D Tilt & Animated Counters */}
           <div className="hero-stats-wrapper">
-            <div className="hero-stats-card glass-card">
-              {personal.stats.map((stat) => (
-                <div key={stat.id} className="stat-row">
-                  <div className="stat-icon-box" style={{ color: stat.color }}>
-                    {getStatIcon(stat.icon)}
+            <TiltCard maxTilt={7} className="hero-stats-tilt-wrapper">
+              <div className="hero-stats-card glass-card">
+                {personal.stats.map((stat) => (
+                  <div key={stat.id} className="stat-row" title={stat.tooltip || undefined}>
+                    <div className="stat-icon-box" style={{ color: stat.color }}>
+                      {getStatIcon(stat.icon)}
+                    </div>
+                    <div className="stat-info">
+                      <span className="stat-value">
+                        <AnimatedCounter value={stat.value} />
+                      </span>
+                      <span className="stat-label">{stat.label}</span>
+                    </div>
                   </div>
-                  <div className="stat-info">
-                    <span className="stat-value">{stat.value}</span>
-                    <span className="stat-label">{stat.label}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </TiltCard>
           </div>
 
         </div>
+
+        {/* 4. Interactive .NET Terminal Playground */}
+        <div className="hero-terminal-section">
+          <div className="terminal-section-intro">
+            <div className="terminal-intro-badge">
+              <span className="terminal-live-dot" />
+              <span>Interactive .NET Sandbox</span>
+            </div>
+            <p className="terminal-intro-sub">
+              Click <strong>"Run (F5)"</strong> to build and execute live C# code!
+            </p>
+          </div>
+          <DotNetTerminal />
+        </div>
+
       </div>
 
       <style>{`
@@ -167,6 +248,38 @@ export const Hero = ({ onOpenContact, onShowToast }) => {
         .hero-avatar-wrapper {
           display: flex;
           justify-content: center;
+          position: relative;
+        }
+
+        .hero-avatar-tilt-wrapper {
+          border-radius: 28px;
+        }
+
+        .hud-indicator-pill {
+          position: absolute;
+          bottom: 12px;
+          left: 50%;
+          transform: translateX(-50%);
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+          background: rgba(14, 14, 22, 0.85);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(168, 85, 247, 0.35);
+          padding: 0.2rem 0.65rem;
+          border-radius: var(--radius-full);
+          font-family: var(--font-mono);
+          font-size: 0.65rem;
+          font-weight: 700;
+          color: #e2e8f0;
+          pointer-events: none;
+          z-index: 4;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+          transition: opacity 0.2s ease;
+        }
+
+        .hero-avatar-card:hover .hud-indicator-pill {
+          opacity: 0;
         }
 
         .hero-avatar-card {
@@ -201,14 +314,144 @@ export const Hero = ({ onOpenContact, onShowToast }) => {
           pointer-events: none;
         }
 
+        .hero-greeting-row {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          margin-bottom: 0.6rem;
+          flex-wrap: wrap;
+        }
+
         .hero-greeting {
           font-size: 1.15rem;
           color: var(--text-secondary);
           display: flex;
           align-items: center;
           gap: 0.4rem;
-          margin-bottom: 0.4rem;
           font-weight: 500;
+        }
+
+        .hero-available-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.45rem;
+          background: rgba(16, 185, 129, 0.12);
+          border: 1px solid rgba(16, 185, 129, 0.3);
+          color: #34d399;
+          padding: 0.2rem 0.65rem;
+          border-radius: var(--radius-full);
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+        }
+
+        .pulse-radar {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #10b981;
+          box-shadow: 0 0 8px #10b981;
+          animation: radarWave 1.8s infinite ease-out;
+        }
+
+        @keyframes radarWave {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.35); opacity: 0.6; }
+        }
+
+        /* Floating Code Syntax Tokens */
+        .floating-code-token {
+          position: absolute;
+          font-family: var(--font-mono);
+          font-size: 0.785rem;
+          color: rgba(168, 85, 247, 0.35);
+          pointer-events: none;
+          z-index: 0;
+          user-select: none;
+          white-space: nowrap;
+        }
+
+        .token-1 {
+          top: 14%;
+          left: 5%;
+          animation: floatToken 9s ease-in-out infinite;
+        }
+
+        .token-2 {
+          top: 48%;
+          left: 3%;
+          animation: floatToken 11s ease-in-out infinite 2s;
+        }
+
+        .token-3 {
+          top: 82%;
+          left: 8%;
+          animation: floatToken 10s ease-in-out infinite 1s;
+        }
+
+        .token-4 {
+          top: 18%;
+          right: 4%;
+          animation: floatToken 12s ease-in-out infinite 3s;
+        }
+
+        .token-5 {
+          top: 78%;
+          right: 5%;
+          animation: floatToken 10.5s ease-in-out infinite 1.5s;
+        }
+
+        @keyframes floatToken {
+          0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+            opacity: 0.25;
+          }
+          50% {
+            transform: translateY(-16px) rotate(2deg);
+            opacity: 0.45;
+          }
+        }
+
+        /* Terminal Section Header */
+        .hero-terminal-section {
+          margin-top: 3.5rem;
+          position: relative;
+          z-index: 1;
+        }
+
+        .terminal-section-intro {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 0.85rem;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+
+        .terminal-intro-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.45rem;
+          background: rgba(168, 85, 247, 0.12);
+          border: 1px solid rgba(168, 85, 247, 0.25);
+          color: var(--accent-purple-light);
+          padding: 0.25rem 0.75rem;
+          border-radius: var(--radius-full);
+          font-size: 0.775rem;
+          font-weight: 700;
+        }
+
+        .terminal-live-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #a855f7;
+          box-shadow: 0 0 8px #a855f7;
+        }
+
+        .terminal-intro-sub {
+          font-size: 0.825rem;
+          color: var(--text-muted);
         }
 
         .wave-hand {

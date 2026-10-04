@@ -9,12 +9,23 @@ import { Experience } from './components/Experience';
 import { ContactCta } from './components/ContactCta';
 import { ContactModal } from './components/ContactModal';
 import { Footer } from './components/Footer';
+import { CursorSpotlight } from './components/CursorSpotlight';
+import { CustomCursor } from './components/CustomCursor';
+import { CanvasBackground } from './components/CanvasBackground';
+import { BootSequence } from './components/BootSequence';
+import { CommandPalette } from './components/CommandPalette';
+import { HowIBuiltThisModal } from './components/HowIBuiltThisModal';
 import { CheckCircle } from 'lucide-react';
 
 function App() {
   const [theme, setTheme] = useState('dark');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isHowIBuiltThisOpen, setIsHowIBuiltThisOpen] = useState(false);
+  const [hasBooted, setHasBooted] = useState(() => {
+    return sessionStorage.getItem('amit_booted') === 'true';
+  });
   const [toastMessage, setToastMessage] = useState(null);
 
   useEffect(() => {
@@ -27,6 +38,18 @@ function App() {
     }
   }, [theme]);
 
+  // Global Ctrl + K / Cmd + K shortcut
+  useEffect(() => {
+    const handleGlobalKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsCommandPaletteOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, []);
+
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
@@ -38,13 +61,38 @@ function App() {
     }, 3000);
   };
 
+  const handleBootComplete = () => {
+    setHasBooted(true);
+    sessionStorage.setItem('amit_booted', 'true');
+  };
+
+  const replayBootSequence = () => {
+    setHasBooted(false);
+  };
+
   return (
     <div className="portfolio-app">
+      {/* Cinematic Developer Boot Sequence */}
+      {!hasBooted && (
+        <BootSequence onComplete={handleBootComplete} />
+      )}
+
+      {/* Lightweight Interactive Constellation Background */}
+      <CanvasBackground />
+
+      {/* Precision Developer Cursor with Contextual Badges */}
+      <CustomCursor />
+
+      {/* Ambient Cursor Spotlight Glow */}
+      <CursorSpotlight />
+
       {/* Navigation Bar */}
       <Navbar
         theme={theme}
         toggleTheme={toggleTheme}
         onOpenContact={() => setIsContactOpen(true)}
+        onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+        onOpenHowIBuiltThis={() => setIsHowIBuiltThisOpen(true)}
       />
 
       <main>
@@ -77,7 +125,7 @@ function App() {
       {/* Footer */}
       <Footer />
 
-      {/* Case Study Modal */}
+      {/* Case Study Modal with Developer Inspection Tabs */}
       {selectedProject && (
         <ProjectModal
           project={selectedProject}
@@ -92,6 +140,23 @@ function App() {
         onShowToast={showToast}
       />
 
+      {/* Command Palette (Ctrl + K) */}
+      <CommandPalette
+        isOpen={isCommandPaletteOpen}
+        onClose={() => setIsCommandPaletteOpen(false)}
+        theme={theme}
+        toggleTheme={toggleTheme}
+        onOpenContact={() => setIsContactOpen(true)}
+        onOpenHowIBuiltThis={() => setIsHowIBuiltThisOpen(true)}
+        onReplayBoot={replayBootSequence}
+      />
+
+      {/* Developer Mode Architecture Specification Modal */}
+      <HowIBuiltThisModal
+        isOpen={isHowIBuiltThisOpen}
+        onClose={() => setIsHowIBuiltThisOpen(false)}
+      />
+
       {/* Interactive Toast Notification */}
       {toastMessage && (
         <div className="toast-notice">
@@ -104,3 +169,4 @@ function App() {
 }
 
 export default App;
+

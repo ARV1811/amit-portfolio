@@ -33,6 +33,7 @@ import {
   PenTool
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
+import { TechMarquee } from './TechMarquee';
 
 export const Skills = () => {
   const { skillCategories } = portfolioData;
@@ -87,6 +88,11 @@ export const Skills = () => {
           <p className="section-subtitle">
             This is a curated shortlist of the tools I use most to ship production-ready products. I keep this section focused on the technologies I use most in real projects.
           </p>
+        </div>
+
+        {/* Continuous Tech Marquee */}
+        <div style={{ marginBottom: '2.5rem' }}>
+          <TechMarquee />
         </div>
 
         {/* Skills Categories Rows */}

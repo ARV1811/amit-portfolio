@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Moon, Sun, Menu, X, Send } from 'lucide-react';
+import { Moon, Sun, Menu, X, Send, Search, Code2 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 
-export const Navbar = ({ theme, toggleTheme, onOpenContact }) => {
+export const Navbar = ({
+  theme,
+  toggleTheme,
+  onOpenContact,
+  onOpenCommandPalette,
+  onOpenHowIBuiltThis
+}) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const { personal } = portfolioData;
 
@@ -20,6 +27,12 @@ export const Navbar = ({ theme, toggleTheme, onOpenContact }) => {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 30);
+
+      // Scroll Progress Calculation
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalScroll > 0) {
+        setScrollProgress(Math.min(100, Math.max(0, (window.scrollY / totalScroll) * 100)));
+      }
 
       // Section spy
       const sections = ['story', 'projects', 'skills', 'experience', 'contact'];
@@ -38,7 +51,7 @@ export const Navbar = ({ theme, toggleTheme, onOpenContact }) => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -64,9 +77,14 @@ export const Navbar = ({ theme, toggleTheme, onOpenContact }) => {
         backdropFilter: scrolled ? 'blur(16px)' : 'none',
         WebkitBackdropFilter: scrolled ? 'blur(16px)' : 'none',
         borderBottom: scrolled ? '1px solid var(--border-subtle)' : '1px solid transparent',
-        padding: '1rem 0'
+        padding: '0.85rem 0'
       }}
     >
+      {/* Scroll Reading Progress Bar */}
+      <div
+        className="navbar-scroll-progress-line"
+        style={{ width: `${scrollProgress}%` }}
+      />
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         {/* Brand Logo */}
         <a
@@ -139,14 +157,38 @@ export const Navbar = ({ theme, toggleTheme, onOpenContact }) => {
         </nav>
 
         {/* Right CTA Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+          
+          {/* Developer Mode Architecture Button */}
+          <button
+            onClick={onOpenHowIBuiltThis}
+            className="btn-dev-mode"
+            title="Explore Architecture Specification"
+            data-cursor-label="DEV MODE"
+          >
+            <Code2 size={13} className="text-purple-400" />
+            <span>Dev Mode</span>
+          </button>
+
+          {/* Command Palette Trigger */}
+          <button
+            onClick={onOpenCommandPalette}
+            className="btn-cmd-k"
+            title="Open Command Palette (Ctrl + K)"
+            data-cursor-label="SEARCH"
+          >
+            <Search size={13} />
+            <span className="cmd-k-text">⌘K</span>
+          </button>
+
           <button
             onClick={onOpenContact}
             className="btn-secondary"
             style={{
-              padding: '0.45rem 1.15rem',
-              fontSize: '0.875rem'
+              padding: '0.45rem 1rem',
+              fontSize: '0.85rem'
             }}
+            data-cursor-label="CONTACT"
           >
             <span>Say Hello</span>
           </button>
@@ -154,12 +196,13 @@ export const Navbar = ({ theme, toggleTheme, onOpenContact }) => {
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="btn-icon"
-            style={{ width: '38px', height: '38px' }}
+            className="btn-icon theme-toggle-btn"
+            style={{ width: '36px', height: '36px' }}
             aria-label="Toggle theme"
             title="Toggle theme mode"
+            data-cursor-label="THEME"
           >
-            {theme === 'dark' ? <Moon size={18} /> : <Sun size={18} />}
+            {theme === 'dark' ? <Moon size={17} /> : <Sun size={17} />}
           </button>
 
           {/* Mobile Menu Toggle Button */}
@@ -224,12 +267,93 @@ export const Navbar = ({ theme, toggleTheme, onOpenContact }) => {
       )}
 
       <style>{`
+        .navbar-scroll-progress-line {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 2px;
+          background: linear-gradient(90deg, #7c3aed, #a855f7, #38bdf8);
+          box-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
+          transition: width 0.1s linear;
+          z-index: 1000;
+        }
+
+        .btn-dev-mode {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+          background: rgba(168, 85, 247, 0.1);
+          border: 1px solid rgba(168, 85, 247, 0.3);
+          color: #c084fc;
+          padding: 0.38rem 0.75rem;
+          border-radius: var(--radius-full);
+          font-size: 0.75rem;
+          font-weight: 700;
+          font-family: var(--font-mono);
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .btn-dev-mode:hover {
+          background: rgba(168, 85, 247, 0.22);
+          border-color: rgba(168, 85, 247, 0.6);
+          color: #ffffff;
+          transform: translateY(-1px);
+        }
+
+        .btn-cmd-k {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid var(--border-subtle);
+          color: var(--text-secondary);
+          padding: 0.38rem 0.65rem;
+          border-radius: 8px;
+          font-size: 0.75rem;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .btn-cmd-k:hover {
+          background: rgba(255, 255, 255, 0.1);
+          color: var(--text-primary);
+          border-color: rgba(168, 85, 247, 0.4);
+        }
+
+        .cmd-k-text {
+          font-family: var(--font-mono);
+          font-weight: 700;
+          font-size: 0.7rem;
+        }
+
+        .theme-toggle-btn {
+          transition: transform 0.35s ease;
+        }
+
+        .theme-toggle-btn:hover {
+          transform: rotate(20deg);
+        }
+
+        @media (max-width: 920px) {
+          .btn-dev-mode span {
+            display: none;
+          }
+          .btn-dev-mode {
+            padding: 0.45rem;
+            border-radius: 8px;
+          }
+        }
+
         @media (max-width: 820px) {
           .desktop-nav {
             display: none !important;
           }
           .mobile-menu-btn {
             display: inline-flex !important;
+          }
+          .btn-cmd-k {
+            display: none;
           }
         }
       `}</style>

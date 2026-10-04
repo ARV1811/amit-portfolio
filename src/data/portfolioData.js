@@ -1,3 +1,67 @@
+import { getTotalExperienceMonths, formatExperienceDecimal, formatDuration, getJobMonths } from '../utils/experience.js';
+
+const rawExperience = [
+  {
+    id: "exp-1",
+    company: "Mission Dev India Pvt Ltd",
+    shortName: "MD",
+    role: "Junior Software Developer",
+    period: "May 2025 - Present",
+    startDate: "2025-05-01",
+    isCurrent: true,
+    description: "Building REST APIs, complex SQL, DevExpress components, Angular basics and database optimizations.",
+    highlights: [
+      "Developing scalable RESTful APIs with ASP.NET Core and Entity Framework Core",
+      "Implementing high-performance DevExpress grid components for enterprise management suites",
+      "Writing and optimizing stored procedures, views, and indexes in SQL Server",
+      "Collaborating with cross-functional teams to integrate Angular frontend interfaces"
+    ],
+    logoColor: "#7c3aed"
+  },
+  {
+    id: "exp-2",
+    company: "Citta Solutions Pvt Ltd",
+    shortName: "CS",
+    role: "Junior Software Developer",
+    period: "Jan 2024 - Mar 2025",
+    startDate: "2024-01-01",
+    endDate: "2025-03-31",
+    fixedMonths: 15,
+    isCurrent: false,
+    description: "Developed web applications using ASP.NET (MVC & Web Forms), SQL Server, Azure and led multiple projects.",
+    highlights: [
+      "Built and maintained robust business portals using ASP.NET MVC and C#",
+      "Architected SQL Server database schemas, data migration scripts, and triggers",
+      "Deployed applications to Microsoft Azure cloud infrastructure",
+      "Led feature development sprints and mentored entry-level developers"
+    ],
+    logoColor: "#3b82f6"
+  },
+  {
+    id: "exp-3",
+    company: "Tech Nishal",
+    shortName: "TN",
+    role: "Junior Web Developer",
+    period: "Jul 2023 - Nov 2023",
+    startDate: "2023-07-01",
+    endDate: "2023-11-30",
+    fixedMonths: 5,
+    isCurrent: false,
+    includeInTotal: false, // Career experience calculated starting from Citta Solutions (Jan 2024)
+    description: "Built RESTful APIs with Node.js and Express, integrated with frontend and databases.",
+    highlights: [
+      "Developed custom backend services and micro-APIs using Node.js and Express",
+      "Integrated dynamic REST endpoints with modern JavaScript frontend applications",
+      "Performed unit testing and API documentation using Postman and Swagger"
+    ],
+    logoColor: "#6366f1"
+  }
+];
+
+const totalExpMonths = getTotalExperienceMonths(rawExperience);
+const totalExpDecimal = formatExperienceDecimal(totalExpMonths);
+const totalExpFormatted = formatDuration(totalExpMonths);
+
 export const portfolioData = {
   personal: {
     name: "Amit Vanpariya",
@@ -14,10 +78,11 @@ export const portfolioData = {
     stats: [
       {
         id: "exp",
-        value: "2.5+",
+        value: totalExpDecimal,
         label: "Years Experience",
         icon: "Calendar",
-        color: "#a855f7"
+        color: "#a855f7",
+        tooltip: `${totalExpFormatted} total experience`
       },
       {
         id: "projects",
@@ -28,7 +93,7 @@ export const portfolioData = {
       },
       {
         id: "companies",
-        value: "3",
+        value: rawExperience.length.toString(),
         label: "Companies Worked",
         icon: "Users2",
         color: "#6366f1"
@@ -46,7 +111,7 @@ export const portfolioData = {
   about: {
     title: "My Story",
     bio: [
-      "I am a passionate .NET & C# Developer dedicated to engineering resilient, high-performance web applications and enterprise-grade software. Over the past 2.5+ years, I have architected and deployed solutions ranging from optical business management systems to high-throughput CRM/ERP portals.",
+      `I am a passionate .NET & C# Developer dedicated to engineering resilient, high-performance web applications and enterprise-grade software. Over the past ${totalExpDecimal} years, I have architected and deployed solutions ranging from optical business management systems to high-throughput CRM/ERP portals.`,
       "My core strength lies in translating complex business logic into clean, maintainable, and high-throughput architectures using ASP.NET Core, C#, Entity Framework Core, SQL Server, and modern frontend frameworks like React and Angular.",
       "I value clean code principles, database performance optimization, responsive design, and seamless user experiences."
     ]
@@ -214,53 +279,9 @@ export const portfolioData = {
     }
   ],
 
-  experience: [
-    {
-      id: "exp-1",
-      company: "Mission Dev India Pvt Ltd",
-      shortName: "MD",
-      role: "Junior Software Developer",
-      period: "May 2025 - Present",
-      isCurrent: true,
-      description: "Building REST APIs, complex SQL, DevExpress components, Angular basics and database optimizations.",
-      highlights: [
-        "Developing scalable RESTful APIs with ASP.NET Core and Entity Framework Core",
-        "Implementing high-performance DevExpress grid components for enterprise management suites",
-        "Writing and optimizing stored procedures, views, and indexes in SQL Server",
-        "Collaborating with cross-functional teams to integrate Angular frontend interfaces"
-      ],
-      logoColor: "#7c3aed"
-    },
-    {
-      id: "exp-2",
-      company: "Citta Solutions Pvt Ltd",
-      shortName: "CS",
-      role: "Junior Software Developer",
-      period: "Jan 2024 - Mar 2025",
-      isCurrent: false,
-      description: "Developed web applications using ASP.NET (MVC & Web Forms), SQL Server, Azure and led multiple projects.",
-      highlights: [
-        "Built and maintained robust business portals using ASP.NET MVC and C#",
-        "Architected SQL Server database schemas, data migration scripts, and triggers",
-        "Deployed applications to Microsoft Azure cloud infrastructure",
-        "Led feature development sprints and mentored entry-level developers"
-      ],
-      logoColor: "#3b82f6"
-    },
-    {
-      id: "exp-3",
-      company: "Tech Nishal",
-      shortName: "TN",
-      role: "Junior Web Developer",
-      period: "Jul 2023 - Nov 2023",
-      isCurrent: false,
-      description: "Built RESTful APIs with Node.js and Express, integrated with frontend and databases.",
-      highlights: [
-        "Developed custom backend services and micro-APIs using Node.js and Express",
-        "Integrated dynamic REST endpoints with modern JavaScript frontend applications",
-        "Performed unit testing and API documentation using Postman and Swagger"
-      ],
-      logoColor: "#6366f1"
-    }
-  ]
+  experience: rawExperience.map((job) => ({
+    ...job,
+    duration: formatDuration(getJobMonths(job))
+  }))
 };
+
