@@ -62,6 +62,17 @@ export const CommandPalette = ({
       }
     },
     {
+      id: 'services',
+      title: 'Services & Hire Me (Freelance Solutions)',
+      category: 'Navigation',
+      icon: Briefcase,
+      color: '#ec4899',
+      run: () => {
+        const target = document.getElementById('hire-me') || document.getElementById('services');
+        target?.scrollIntoView({ behavior: 'smooth' });
+      }
+    },
+    {
       id: 'experience',
       title: 'View Experience Timeline',
       category: 'Navigation',

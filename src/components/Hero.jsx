@@ -128,10 +128,20 @@ export const Hero = ({ onOpenContact, onShowToast }) => {
                 <span className="wave-hand">👋</span>
               </div>
               {personal.availableForHire && (
-                <div className="hero-available-badge">
+                <a
+                  href="#hire-me"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('hire-me')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="hero-available-badge"
+                  style={{ textDecoration: 'none', cursor: 'pointer' }}
+                  title="Click to view freelance services & availability"
+                  data-cursor-label="FREELANCE"
+                >
                   <span className="pulse-radar" />
-                  <span>Available for Hire</span>
-                </div>
+                  <span>Available for Freelance Projects</span>
+                </a>
               )}
             </div>
 
@@ -149,6 +159,19 @@ export const Hero = ({ onOpenContact, onShowToast }) => {
 
             {/* Quick Action Buttons */}
             <div className="hero-actions">
+              <a
+                href="#hire-me"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('hire-me')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="btn-primary hero-hire-btn"
+                data-cursor-label="HIRE ME"
+              >
+                <Sparkles size={16} />
+                <span>Hire Me</span>
+              </a>
+
               <button onClick={handleContactClick} className="btn-contact-live">
                 <span className="pulse-dot" />
                 <span>Contact me</span>
@@ -505,6 +528,37 @@ export const Hero = ({ onOpenContact, onShowToast }) => {
           align-items: center;
           gap: 1rem;
           flex-wrap: wrap;
+        }
+
+        .hero-hire-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.65rem 1.4rem;
+          border-radius: var(--radius-full);
+          font-size: 0.95rem;
+          font-weight: 700;
+          text-decoration: none;
+          cursor: pointer;
+          transition: var(--transition-smooth);
+          box-shadow: 0 0 20px rgba(168, 85, 247, 0.35);
+        }
+
+        .hero-hire-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
+        }
+
+        .hero-available-badge {
+          cursor: pointer;
+          transition: all 0.25s ease;
+        }
+
+        .hero-available-badge:hover {
+          transform: translateY(-1px);
+          background: rgba(16, 185, 129, 0.22);
+          border-color: rgba(16, 185, 129, 0.6);
+          box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
         }
 
         .btn-contact-live {

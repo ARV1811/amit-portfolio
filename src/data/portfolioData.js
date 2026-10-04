@@ -282,6 +282,229 @@ export const portfolioData = {
   experience: rawExperience.map((job) => ({
     ...job,
     duration: formatDuration(getJobMonths(job))
-  }))
+  })),
+
+  services: [
+    {
+      id: "custom-apps",
+      title: "Custom Business Applications",
+      badge: "Full-Stack Solutions",
+      subtitle: "Tailored management software replacing brittle spreadsheets & disconnected tools",
+      problem: "Off-the-shelf software often forces you to change your workflows, charges prohibitive seat licenses, or fails to handle specialized industry processes.",
+      solution: "I engineer custom, responsive web portals, CRM/ERP systems, retail operations software, and internal tools built around your exact business logic.",
+      deliverables: [
+        "End-to-end web portals (frontend + secure backend + database)",
+        "Granular role-based authorization (Admin, Manager, Staff, Client)",
+        "Interactive high-performance data grids with instant search & filtering",
+        "Automated business calculations, invoices, and PDF/Excel export engines",
+        "Responsive, modern UI designed for desktop and mobile operators"
+      ],
+      techStack: ["ASP.NET Core", "C#", "React", "Angular", "SQL Server", "DevExpress"],
+      icon: "Layers",
+      color: "#a855f7"
+    },
+    {
+      id: "aspnet-api",
+      title: "ASP.NET Core / Web API Development",
+      badge: "High-Throughput Backend",
+      subtitle: "Scalable, resilient REST APIs and microservices engineered for speed and security",
+      problem: "Slow response times, unhandled edge cases, lack of documentation, and poor architectural patterns create bottlenecks that cripple frontend and mobile apps.",
+      solution: "I build robust, production-grade RESTful APIs using ASP.NET Core and Clean Architecture principles, ensuring sub-100ms response times and airtight security.",
+      deliverables: [
+        "RESTful API endpoints following Clean Architecture & CQRS patterns",
+        "Secure authentication & authorization (JWT, Refresh Tokens, OAuth)",
+        "Entity Framework Core optimization and caching layers (Redis / MemoryCache)",
+        "Interactive OpenAPI / Swagger API documentation for quick client integration",
+        "Rate limiting, global exception handling, and structured request logging"
+      ],
+      techStack: [".NET 8 / 9", "ASP.NET Core", "C#", "EF Core", "REST API", "JWT"],
+      icon: "Server",
+      color: "#3b82f6"
+    },
+    {
+      id: "sql-database",
+      title: "SQL Server & Database Solutions",
+      badge: "Data Architecture & Tuning",
+      subtitle: "Schema design, query optimization, and high-performance database foundations",
+      problem: "Slow SQL queries, database deadlocks, unstructured schemas, and missing indexes cause application lag, timeout errors, and user frustration under load.",
+      solution: "I design clean relational data models and tune existing databases to execute complex queries and reports in milliseconds rather than minutes.",
+      deliverables: [
+        "Relational schema architecture (3NF normalization, foreign keys, constraints)",
+        "Complex stored procedures, functions, triggers, and analytical views",
+        "Query execution plan analysis, index tuning, and performance profiling",
+        "Safe data migration scripts, ETL pipelines, and legacy data cleanup",
+        "Automated backup procedures, connection pooling, and deadlock mitigation"
+      ],
+      techStack: ["Microsoft SQL Server", "T-SQL", "Stored Procedures", "PostgreSQL", "EF Core"],
+      icon: "Database",
+      color: "#ec4899"
+    },
+    {
+      id: "maintenance-enhancement",
+      title: "Application Enhancement, Bug Fixing & Maintenance",
+      badge: "Reliability & Modernization",
+      subtitle: "Resolving critical bugs, optimizing performance, and evolving existing codebases",
+      problem: "Legacy codebases accumulate technical debt, critical bugs disrupt customer operations, and missing original developers leave you stranded when updates are needed.",
+      solution: "I quickly audit existing .NET applications, pinpoint root causes, eliminate performance bottlenecks, and implement new features without breaking existing functionality.",
+      deliverables: [
+        "Deep root-cause diagnostics for intermittent bugs and crashes",
+        "Application profiling to eliminate memory leaks and high CPU usage",
+        "Refactoring spaghetti code into maintainable, modular components",
+        "Upgrading legacy .NET Framework applications to modern .NET Core",
+        "Adding new modules, reports, or UI enhancements to active systems"
+      ],
+      techStack: ["C#", "ASP.NET MVC", ".NET Core", "Visual Studio Diagnostics", "Bug Fixing"],
+      icon: "Wrench",
+      color: "#f59e0b"
+    },
+    {
+      id: "api-integration",
+      title: "API & System Integration",
+      badge: "Connected Ecosystems",
+      subtitle: "Connecting payment gateways, third-party services, webhooks, and enterprise tools",
+      problem: "Manual data entry between disconnected platforms wastes employee hours and introduces costly human errors into your billing and logistics.",
+      solution: "I connect your internal software with third-party APIs, payment gateways, messaging services, and external platforms via resilient, automated pipelines.",
+      deliverables: [
+        "Payment gateway integration (Stripe, Razorpay, PayPal) with webhook validation",
+        "Automated SMS, WhatsApp, and transactional email notification pipelines",
+        "DevExpress grid and reporting suite embedding into enterprise dashboards",
+        "Third-party CRM, ERP, and shipping carrier API integrations",
+        "Resilient background workers with retry policies and queue processing"
+      ],
+      techStack: ["REST APIs", "Webhooks", "HttpClient", "DevExpress", "Azure", "JSON"],
+      icon: "Network",
+      color: "#10b981"
+    }
+  ],
+
+  workflowSteps: [
+    {
+      step: "01",
+      name: "Discover",
+      title: "Discovery & Alignment",
+      timeframe: "Days 1 – 3",
+      tagline: "Clarifying objectives, pain points, and business logic before writing a single line of code.",
+      clientRole: "30-min strategy kickoff or detailed requirements brief",
+      deliverables: [
+        "Comprehensive project scope & functional requirements breakdown",
+        "Technical architecture recommendation (.NET, database, frontend)",
+        "Identified edge cases, user roles, and business constraints"
+      ],
+      highlight: "Guarantees we build the right solution for your business from day one."
+    },
+    {
+      step: "02",
+      name: "Plan",
+      title: "Architecture & Roadmap",
+      timeframe: "Days 3 – 5",
+      tagline: "Designing database models, API contracts, and predictable milestone timelines.",
+      clientRole: "Sign-off on proposed milestone roadmap & wireframes",
+      deliverables: [
+        "Relational database schema & ER diagram design",
+        "API contract specifications and data flow architecture",
+        "Fixed-scope sprint timeline with clear demo checkpoints"
+      ],
+      highlight: "No surprises: you know exactly what is being built and when it will be delivered."
+    },
+    {
+      step: "03",
+      name: "Develop",
+      title: "Iterative Engineering",
+      timeframe: "Milestone Sprints (1 – 3 weeks)",
+      tagline: "Building high-performance code with clean commits and continuous visibility.",
+      clientRole: "Review live staging updates & short async Loom walkthroughs",
+      deliverables: [
+        "Clean, maintainable ASP.NET Core & frontend code adhering to standards",
+        "Private staging URL preview for hands-on milestone testing",
+        "Weekly progress updates with transparent task tracking"
+      ],
+      highlight: "You see the product take shape weekly rather than waiting until the end."
+    },
+    {
+      step: "04",
+      name: "Test",
+      title: "Hardening & Optimization",
+      timeframe: "Continuous + Hardening Sprint",
+      tagline: "Rigorous testing of edge cases, database query speeds, and security boundaries.",
+      clientRole: "User Acceptance Testing (UAT) with real-world scenarios",
+      deliverables: [
+        "End-to-end integration and API endpoint verification",
+        "SQL query execution plan tuning and indexing under load",
+        "Cross-browser and mobile responsive checks, input validation audit"
+      ],
+      highlight: "Ensures rock-solid reliability before real users or customers touch the system."
+    },
+    {
+      step: "05",
+      name: "Deploy",
+      title: "Production Launch",
+      timeframe: "Go-Live Day",
+      tagline: "Seamless deployment to production cloud or on-premise infrastructure with zero friction.",
+      clientRole: "Final sign-off and domain / hosting access provision",
+      deliverables: [
+        "Zero-downtime deployment to Azure, VPS, or Windows Server / IIS",
+        "SSL certification, database migration execution, and environment configs",
+        "Complete source code repository transfer with zero vendor lock-in"
+      ],
+      highlight: "You own 100% of the IP, documentation, and operational assets."
+    },
+    {
+      step: "06",
+      name: "Support",
+      title: "Warranty & Evolution",
+      timeframe: "30 Days Included Warranty",
+      tagline: "Standing behind the work with post-launch support and ongoing optimization.",
+      clientRole: "Feedback on live usage and planning next feature phases",
+      deliverables: [
+        "30-day complimentary bug-fix warranty for complete peace of mind",
+        "System documentation and handover walkthrough for your team",
+        "Flexible ongoing maintenance or retainer options as your needs grow"
+      ],
+      highlight: "You are never left on your own after launch."
+    }
+  ],
+
+  whyWorkWithMe: [
+    {
+      id: "direct-comm",
+      icon: "Users2",
+      title: "Direct Senior Developer Access",
+      subtitle: "No middlemen or account managers",
+      description: "You communicate directly with the engineer designing the database and writing the code. Faster decisions, zero lost requirements, and instant turnaround.",
+      color: "#a855f7"
+    },
+    {
+      id: "enterprise-stack",
+      icon: "Cpu",
+      title: "Enterprise-Grade .NET & SQL",
+      subtitle: "Engineered for speed and resilience",
+      description: "Built on Microsoft's rock-solid enterprise ecosystem—C# 12, ASP.NET Core, and Microsoft SQL Server. Designed from day one to handle heavy business transactions effortlessly.",
+      color: "#3b82f6"
+    },
+    {
+      id: "code-ownership",
+      icon: "ShieldCheck",
+      title: "100% Code & IP Ownership",
+      subtitle: "Clean architecture, zero lock-in",
+      description: "Every line of code, database migration, and documentation belongs completely to you. Structured cleanly so any developer can pick it up without friction.",
+      color: "#10b981"
+    },
+    {
+      id: "milestones",
+      icon: "FolderGit2",
+      title: "Milestone-Driven Transparency",
+      subtitle: "Predictable timeline & staging previews",
+      description: "No black boxes. Work is broken into agreed deliverables with private staging links. You inspect progress before final milestone approvals.",
+      color: "#f59e0b"
+    },
+    {
+      id: "warranty",
+      icon: "LifeBuoy",
+      title: "30-Day Post-Launch Warranty",
+      subtitle: "Peace of mind after deployment",
+      description: "I stand firmly behind my craftsmanship. If any bugs or unexpected behavior arise within 30 days of launch, they are addressed immediately at zero additional cost.",
+      color: "#ec4899"
+    }
+  ]
 };
 

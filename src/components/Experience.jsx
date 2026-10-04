@@ -123,6 +123,36 @@ export const Experience = () => {
               })}
           </div>
 
+          {/* Seamless Freelance & Contract Engineering Callout */}
+          <div className="exp-freelance-banner glass-card">
+            <div className="exp-freelance-left">
+              <div className="exp-freelance-badge">
+                <span className="live-status-dot" />
+                <span>Freelance & Advisory Engineering</span>
+              </div>
+              <h4 className="exp-freelance-title">
+                Available for Contract Software Engineering & Database Modernization
+              </h4>
+              <p className="exp-freelance-desc">
+                In addition to my full-time roles, I partner with companies for custom ASP.NET Core applications,
+                high-throughput REST APIs, SQL Server query tuning, and legacy system modernization.
+              </p>
+            </div>
+            <a
+              href="#hire-me"
+              onClick={(e) => {
+                e.preventDefault();
+                const target = document.getElementById('hire-me') || document.getElementById('services');
+                target?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="btn-primary exp-freelance-cta"
+              data-cursor-label="SERVICES"
+            >
+              <span>Explore Services & Hire Me</span>
+              <ChevronRight size={16} />
+            </a>
+          </div>
+
         </div>
 
       </div>
@@ -344,6 +374,71 @@ export const Experience = () => {
           100% { transform: scale(1.9); opacity: 0; }
         }
 
+        .exp-freelance-banner {
+          margin-top: 3rem;
+          padding: 1.75rem 2.25rem;
+          border-radius: 18px;
+          background: var(--bg-card);
+          border: 1px solid var(--border-subtle);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 2rem;
+          box-shadow: var(--glass-shadow);
+          transition: all 0.3s ease;
+        }
+
+        .exp-freelance-banner:hover {
+          border-color: var(--border-focus);
+          transform: translateY(-2px);
+          box-shadow: var(--glow-shadow);
+        }
+
+        .exp-freelance-left {
+          display: flex;
+          flex-direction: column;
+          gap: 0.45rem;
+        }
+
+        .exp-freelance-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.45rem;
+          width: fit-content;
+          background: rgba(16, 185, 129, 0.12);
+          border: 1px solid rgba(16, 185, 129, 0.35);
+          color: #34d399;
+          font-size: 0.725rem;
+          font-weight: 700;
+          font-family: var(--font-mono);
+          padding: 0.2rem 0.65rem;
+          border-radius: var(--radius-full);
+          text-transform: uppercase;
+        }
+
+        .exp-freelance-title {
+          font-size: 1.25rem;
+          font-weight: 800;
+          color: var(--text-primary);
+        }
+
+        .exp-freelance-desc {
+          font-size: 0.885rem;
+          color: var(--text-secondary);
+          max-width: 680px;
+          line-height: 1.55;
+        }
+
+        .exp-freelance-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.75rem 1.4rem;
+          white-space: nowrap;
+          text-decoration: none;
+          flex-shrink: 0;
+        }
+
         @media (max-width: 990px) {
           .experience-grid {
             grid-template-columns: 1fr;
@@ -352,6 +447,18 @@ export const Experience = () => {
 
           .timeline-connector {
             display: none;
+          }
+
+          .exp-freelance-banner {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 1.5rem;
+            gap: 1.25rem;
+          }
+
+          .exp-freelance-cta {
+            width: 100%;
+            justify-content: center;
           }
         }
       `}</style>

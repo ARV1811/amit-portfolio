@@ -19,6 +19,7 @@ export const Navbar = ({
   const navItems = [
     { label: 'My Story', href: '#story' },
     { label: 'Projects', href: '#projects' },
+    { label: 'Services', href: '#services' },
     { label: 'Skills', href: '#skills' },
     { label: 'Experience', href: '#experience' },
     { label: 'Contact', href: '#contact' },
@@ -35,7 +36,7 @@ export const Navbar = ({
       }
 
       // Section spy
-      const sections = ['story', 'projects', 'skills', 'experience', 'contact'];
+      const sections = ['story', 'projects', 'services', 'skills', 'experience', 'contact'];
       const scrollPos = window.scrollY + 200;
 
       for (const section of sections) {
@@ -181,9 +182,25 @@ export const Navbar = ({
             <span className="cmd-k-text">⌘K</span>
           </button>
 
+          {/* Hire Me Button that smoothly scrolls to the freelance/services section */}
+          <a
+            href="#hire-me"
+            onClick={(e) => {
+              e.preventDefault();
+              const target = document.getElementById('hire-me') || document.getElementById('services');
+              target?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="btn-nav-hire"
+            data-cursor-label="HIRE ME"
+            title="View Freelance Services & Hire Me"
+          >
+            <span className="hire-pulse-dot" />
+            <span>Hire Me</span>
+          </a>
+
           <button
             onClick={onOpenContact}
-            className="btn-secondary"
+            className="btn-secondary btn-nav-sayhello"
             style={{
               padding: '0.45rem 1rem',
               fontSize: '0.85rem'
@@ -252,13 +269,29 @@ export const Navbar = ({
               {item.label}
             </a>
           ))}
+
+          <a
+            href="#hire-me"
+            onClick={(e) => {
+              e.preventDefault();
+              setMobileMenuOpen(false);
+              const target = document.getElementById('hire-me') || document.getElementById('services');
+              target?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="btn-nav-hire"
+            style={{ width: '100%', justifyContent: 'center', padding: '0.65rem', marginTop: '0.25rem' }}
+          >
+            <span className="hire-pulse-dot" />
+            <span>Hire Me / Start Project</span>
+          </a>
+
           <button
             onClick={() => {
               setMobileMenuOpen(false);
               onOpenContact();
             }}
-            className="btn-primary"
-            style={{ marginTop: '0.5rem', width: '100%', justifyContent: 'center' }}
+            className="btn-secondary"
+            style={{ width: '100%', justifyContent: 'center' }}
           >
             <Send size={16} />
             <span>Say Hello</span>
@@ -327,12 +360,58 @@ export const Navbar = ({
           font-size: 0.7rem;
         }
 
+        .btn-nav-hire {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.45rem;
+          background: linear-gradient(135deg, rgba(147, 51, 234, 0.2) 0%, rgba(99, 102, 241, 0.18) 100%);
+          border: 1px solid rgba(168, 85, 247, 0.5);
+          color: #f8fafc;
+          padding: 0.42rem 0.95rem;
+          border-radius: var(--radius-full);
+          font-size: 0.825rem;
+          font-weight: 700;
+          text-decoration: none;
+          cursor: pointer;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 0 16px rgba(147, 51, 234, 0.25);
+        }
+
+        .btn-nav-hire:hover {
+          background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+          border-color: rgba(255, 255, 255, 0.4);
+          color: #ffffff;
+          transform: translateY(-1px);
+          box-shadow: 0 0 25px rgba(168, 85, 247, 0.6);
+        }
+
+        .hire-pulse-dot {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #10b981;
+          box-shadow: 0 0 8px #10b981;
+          animation: pulseBeacon 2s infinite;
+        }
+
         .theme-toggle-btn {
           transition: transform 0.35s ease;
         }
 
         .theme-toggle-btn:hover {
           transform: rotate(20deg);
+        }
+
+        @keyframes pulseBeacon {
+          0% { transform: scale(0.95); opacity: 0.85; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+          70% { transform: scale(1.15); opacity: 1; box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+          100% { transform: scale(0.95); opacity: 0.85; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        @media (max-width: 980px) {
+          .btn-nav-sayhello {
+            display: none !important;
+          }
         }
 
         @media (max-width: 920px) {

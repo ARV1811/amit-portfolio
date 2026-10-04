@@ -4,6 +4,7 @@ import { Hero } from './components/Hero';
 import { Story } from './components/Story';
 import { Projects } from './components/Projects';
 import { ProjectModal } from './components/ProjectModal';
+import { ServicesHireMe } from './components/ServicesHireMe';
 import { Skills } from './components/Skills';
 import { Experience } from './components/Experience';
 import { ContactCta } from './components/ContactCta';
@@ -105,6 +106,12 @@ function App() {
         {/* Projects Section */}
         <Projects
           onSelectProject={(project) => setSelectedProject(project)}
+        />
+
+        {/* Services & Hire Me (Freelance Engineering) Section */}
+        <ServicesHireMe
+          onOpenContact={() => setIsContactOpen(true)}
+          onShowToast={showToast}
         />
 
         {/* Skills Section */}
