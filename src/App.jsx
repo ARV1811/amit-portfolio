@@ -62,23 +62,23 @@ function App() {
     }, 3000);
   };
 
-  // Automatic redirect to projects section when opening portfolio
+  // Redirection to the information / hero section on opening portfolio
   useEffect(() => {
-    const scrollToProjects = (smooth = false) => {
-      const el = document.getElementById('projects');
+    const scrollToHero = () => {
+      const el = document.getElementById('hero');
       if (el) {
-        el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
-        if (!window.location.hash || window.location.hash === '#hero') {
-          window.history.replaceState(null, '', '#projects');
-        }
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      if (window.location.hash && window.location.hash === '#projects') {
+        window.history.replaceState(null, '', window.location.pathname);
       }
     };
 
     if (hasBooted) {
-      scrollToProjects(false);
-      const timer = setTimeout(() => {
-        scrollToProjects(true);
-      }, 120);
+      scrollToHero();
+      const timer = setTimeout(scrollToHero, 100);
       return () => clearTimeout(timer);
     }
   }, [hasBooted]);
@@ -87,14 +87,13 @@ function App() {
     setHasBooted(true);
     sessionStorage.setItem('amit_booted', 'true');
     setTimeout(() => {
-      const el = document.getElementById('projects');
+      const el = document.getElementById('hero');
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        if (!window.location.hash || window.location.hash === '#hero') {
-          window.history.replaceState(null, '', '#projects');
-        }
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
-    }, 150);
+    }, 100);
   };
 
   const replayBootSequence = () => {

@@ -36,6 +36,11 @@ export const Navbar = ({
       }
 
       // Section spy
+      if (window.scrollY < 200) {
+        setActiveSection('hero');
+        return;
+      }
+
       const sections = ['story', 'projects', 'services', 'skills', 'experience', 'contact'];
       const scrollPos = window.scrollY + 200;
 
@@ -89,7 +94,11 @@ export const Navbar = ({
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         {/* Brand Logo */}
         <a
-          href="#"
+          href="#hero"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
           style={{
             display: 'flex',
             alignItems: 'center',
