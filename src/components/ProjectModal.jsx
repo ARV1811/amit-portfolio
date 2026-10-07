@@ -6,18 +6,18 @@ import {
 import { GithubIcon } from './SocialIcons';
 
 export const ProjectModal = ({ project, onClose }) => {
-  if (!project) return null;
-
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'architecture' | 'api-db'
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') onClose?.();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
+
+  if (!project) return null;
 
   const currentDisplayImage = project.gallery && project.gallery[activeImageIndex]
     ? project.gallery[activeImageIndex].image

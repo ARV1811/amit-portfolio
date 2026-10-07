@@ -69,7 +69,7 @@ export const portfolioData = {
     role: ".NET & C# Developer",
     greeting: "Hi there! I'm",
     tagline: "I build scalable web applications and business management systems that solve real problems and drive growth.",
-    avatar: "/amit_portrait.jpg",
+    avatar: "/amit_portrait.jpg?v=2",
     email: "amitvanpariya2002@gmail.com",
     phone: "+91 9106880789",
     github: "https://github.com/ARV1811",

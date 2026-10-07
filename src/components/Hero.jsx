@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Mail, Phone, Calendar, FolderGit2, Users2, Rocket, ArrowRight, Sparkles, Activity } from 'lucide-react';
+import React from 'react';
+import { Mail, Phone, Calendar, FolderGit2, Users2, Rocket, ArrowRight, Sparkles } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
 import { portfolioData } from '../data/portfolioData';
@@ -7,11 +7,9 @@ import { TiltCard } from './TiltCard';
 import { AnimatedCounter } from './AnimatedCounter';
 import { RoleTyping } from './RoleTyping';
 import { DotNetTerminal } from './DotNetTerminal';
-import { DeveloperHUD } from './DeveloperHUD';
 
 export const Hero = ({ onOpenContact, onShowToast }) => {
   const { personal } = portfolioData;
-  const [isHudHovered, setIsHudHovered] = useState(false);
 
   const handleContactClick = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -92,12 +90,9 @@ export const Hero = ({ onOpenContact, onShowToast }) => {
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         <div className="hero-grid">
           
-          {/* 1. Left Avatar Card with 3D Tilt, Developer HUD & Floating Tech Badges */}
+          {/* 1. Left Avatar Card with 3D Tilt */}
           <div
             className="hero-avatar-wrapper"
-            data-cursor-label="DEVELOPER HUD"
-            onMouseEnter={() => setIsHudHovered(true)}
-            onMouseLeave={() => setIsHudHovered(false)}
           >
             <TiltCard maxTilt={9} className="hero-avatar-tilt-wrapper">
               <div className="hero-avatar-card">
@@ -107,15 +102,6 @@ export const Hero = ({ onOpenContact, onShowToast }) => {
                   className="hero-avatar-img"
                 />
                 <div className="hero-avatar-glow" />
-
-                {/* Developer HUD System Diagnostics Overlay */}
-                <DeveloperHUD isVisible={isHudHovered} />
-
-                {/* HUD Trigger Indicator Pill */}
-                <div className="hud-indicator-pill">
-                  <Activity size={10} className="text-emerald-400" />
-                  <span>Developer HUD</span>
-                </div>
               </div>
             </TiltCard>
           </div>
@@ -278,32 +264,7 @@ export const Hero = ({ onOpenContact, onShowToast }) => {
           border-radius: 28px;
         }
 
-        .hud-indicator-pill {
-          position: absolute;
-          bottom: 12px;
-          left: 50%;
-          transform: translateX(-50%);
-          display: inline-flex;
-          align-items: center;
-          gap: 0.35rem;
-          background: rgba(14, 14, 22, 0.85);
-          backdrop-filter: blur(8px);
-          border: 1px solid rgba(168, 85, 247, 0.35);
-          padding: 0.2rem 0.65rem;
-          border-radius: var(--radius-full);
-          font-family: var(--font-mono);
-          font-size: 0.65rem;
-          font-weight: 700;
-          color: #e2e8f0;
-          pointer-events: none;
-          z-index: 4;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-          transition: opacity 0.2s ease;
-        }
 
-        .hero-avatar-card:hover .hud-indicator-pill {
-          opacity: 0;
-        }
 
         .hero-avatar-card {
           position: relative;

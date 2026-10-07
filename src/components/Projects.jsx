@@ -16,7 +16,7 @@ export const Projects = ({ onSelectProject }) => {
   };
 
   return (
-    <section id="projects" style={{ padding: '5rem 0', position: 'relative' }}>
+    <section id="projects" style={{ padding: '5rem 0', position: 'relative', scrollMarginTop: '80px' }}>
       <div className="container">
         
         {/* Section Header */}

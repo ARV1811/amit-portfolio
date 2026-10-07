@@ -62,9 +62,39 @@ function App() {
     }, 3000);
   };
 
+  // Automatic redirect to projects section when opening portfolio
+  useEffect(() => {
+    const scrollToProjects = (smooth = false) => {
+      const el = document.getElementById('projects');
+      if (el) {
+        el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+        if (!window.location.hash || window.location.hash === '#hero') {
+          window.history.replaceState(null, '', '#projects');
+        }
+      }
+    };
+
+    if (hasBooted) {
+      scrollToProjects(false);
+      const timer = setTimeout(() => {
+        scrollToProjects(true);
+      }, 120);
+      return () => clearTimeout(timer);
+    }
+  }, [hasBooted]);
+
   const handleBootComplete = () => {
     setHasBooted(true);
     sessionStorage.setItem('amit_booted', 'true');
+    setTimeout(() => {
+      const el = document.getElementById('projects');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (!window.location.hash || window.location.hash === '#hero') {
+          window.history.replaceState(null, '', '#projects');
+        }
+      }
+    }, 150);
   };
 
   const replayBootSequence = () => {
